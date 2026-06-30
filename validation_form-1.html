@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation</title>
+</head>
+
+<body>
+    <style>
+        div {
+            background-color: pink;
+            display: flex;
+            padding-left: 20px;
+            padding-bottom: 20px;
+            padding-right: 20px;
+            padding-top: 20px;
+            color: black;
+            width: 400px;
+            height: 250px;
+            justify-content: center;
+        }
+
+        #container {
+            position: absolute;
+            left: 550px;
+            top: 40px;
+        }
+
+        div input {
+            background-color: lightcoral;
+            color: white;
+        }
+
+        div ::placeholder {
+            color: black;
+        }
+
+        div h2 {
+            position: absolute;
+            top: 10px;
+        }
+
+        div form {
+            position: absolute;
+            top: 80px;
+        }
+
+        #form-input td,
+        tr {
+            padding: 8px;
+        }
+    </style>
+
+    <div id="container">
+        <h2>Validation Form</h2>
+        <form id="form-input">
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><input type="text" placeholder="Enter Your Name" id="nameinput"></td>
+                </tr>
+                <tr>
+                    <td>Phone No:</td>
+                    <td><input type="tel" placeholder="+91XXXXXXXXXX" id="phinput"></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="password" placeholder="Enter Your Password" id="passwordinput"></td>
+                </tr>
+                <tr>
+                    <td>Confirm Password:</td>
+                    <td><input type="password" placeholder="Enter Your Password" id="confirmpassinput"></td>
+                </tr>
+                <tr>
+                    <td><button type="button" onclick="Validation()">Check</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <script>
+        var nameinput = document.getElementById("nameinput");
+        var phinput = document.getElementById("phinput");
+        var passwordinput = document.getElementById("passwordinput");
+        var confirmpassinput = document.getElementById("confirmpassinput");
+
+        function Validation() {
+
+            // Bug 2 fix: empty check first, then length check
+            if (nameinput.value === "") {
+                alert("Enter Name");
+                return false;
+            }
+            if (nameinput.value.length > 10) {
+                alert("Name must be less than 10 characters");
+                return false;
+            }
+
+            // Bug 4 fix: .value === "" instead of .length == ""
+            if (phinput.value === "") {
+                alert("Enter Phone Number");
+                return false;
+            }
+            if (!phinput.value.startsWith("+91")) {
+                alert("Phone number must start with +91");
+                return false;
+            }
+            if (phinput.value.length !== 13) {
+                alert("Phone number must contain 10 digits with +91");
+                return false;
+            }
+
+            if (passwordinput.value === "") {
+                alert("Enter Password");
+                return false;
+            }
+
+            // Bug 3 fix: removed document.createElement("password") line
+            var passwordpattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?=.*[0-9]).{8,}$/;
+            if (!passwordpattern.test(passwordinput.value)) {
+                alert("Password must contain Uppercase, Lowercase, Number and Symbol");
+                return false;
+            }
+
+            if (confirmpassinput.value === "") {
+                alert("Enter Confirm Password");
+                return false;
+            }
+            if (passwordinput.value !== confirmpassinput.value) {
+                alert("Passwords do not match");
+                return false;
+            }
+
+            alert("Form Submitted Successfully");
+            return true;
+        }
+    </script>
+</body>
+
+</html>
